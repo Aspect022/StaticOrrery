@@ -1,93 +1,73 @@
-// Create a scene
-const scene = new THREE.Scene();
+// Function to solve Kepler's Equation for eccentric anomaly (E)
+function solveKepler(eccentricity, meanAnomaly, tolerance = 1e-6) {
+    let eccentricAnomaly = meanAnomaly;
+    let difference = 1;
 
-// Create a camera (PerspectiveCamera simulates human eye view)
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-// Create a renderer and attach it to the document
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Set the camera's position
-camera.position.z = 50; // Move further back for a better view of more planets
-
-// Create the Sun
-const sunGeometry = new THREE.SphereGeometry(3, 32, 32); // Radius 3
-const sunMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 }); // Yellow color
-const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-scene.add(sun);
-
-// Function to create a planet with a given size, color, and orbit radius
-function createPlanet(radius, color, orbitRadius) {
-    const planetGeometry = new THREE.SphereGeometry(radius, 32, 32);
-    const planetMaterial = new THREE.MeshBasicMaterial({ color: color });
-    const planet = new THREE.Mesh(planetGeometry, planetMaterial);
-
-    const orbitGeometry = new THREE.RingGeometry(orbitRadius, orbitRadius + 0.05, 64);
-    const orbitMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-    const orbit = new THREE.Mesh(orbitGeometry, orbitMaterial);
-    orbit.rotation.x = Math.PI / 2; // Rotate orbit to lie flat
-    scene.add(orbit);
-
-    return { planet, orbitRadius };
+    while (Math.abs(difference) > tolerance) {
+        difference = (eccentricAnomaly - eccentricity * Math.sin(eccentricAnomaly) - meanAnomaly) /
+                     (1 - eccentricity * Math.cos(eccentricAnomaly));
+        eccentricAnomaly -= difference;
+    }
+    
+    return eccentricAnomaly;
 }
 
-// Create Earth and its moon
-const earthData = createPlanet(1, 0x0000ff, 8);
-const moonGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-const moonMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
-const moon = new THREE.Mesh(moonGeometry, moonMaterial);
-scene.add(earthData.planet);
-scene.add(moon);
+// Calculate the position of the planet based on elliptical orbit
+function calculateEllipticalOrbit(semiMajorAxis, eccentricity, meanAnomaly) {
+    // Get Eccentric Anomaly using Kepler's Equation
+    let eccentricAnomaly = solveKepler(eccentricity, meanAnomaly);
 
-// Add more planets (Mars, Venus, Jupiter)
-const venusData = createPlanet(0.9, 0xffa500, 5);  // Venus
-const marsData = createPlanet(0.6, 0xff4500, 12);  // Mars
-const jupiterData = createPlanet(2.5, 0xffe4b5, 20);  // Jupiter
+    // True Anomaly
+    let trueAnomaly = 2 * Math.atan2(
+        Math.sqrt(1 + eccentricity) * Math.sin(eccentricAnomaly / 2),
+        Math.sqrt(1 - eccentricity) * Math.cos(eccentricAnomaly / 2)
+    );
 
-scene.add(venusData.planet);
-scene.add(marsData.planet);
-scene.add(jupiterData.planet);
+    // Distance from focus (Sun)
+    let radius = semiMajorAxis * (1 - eccentricity * Math.cos(eccentricAnomaly));
 
-// Variables to track orbits
-let earthOrbitAngle = 0;
-let moonOrbitAngle = 0;
-let venusOrbitAngle = 0;
-let marsOrbitAngle = 0;
-let jupiterOrbitAngle = 0;
+    // Convert Polar Coordinates (radius, trueAnomaly) to Cartesian Coordinates (x, y)
+    let x = radius * Math.cos(trueAnomaly);
+    let y = radius * Math.sin(trueAnomaly);
 
-// Create a simple animate loop
+    return { x: x, y: y };
+}
+
+// Function to update the planet's position over time
+function updatePlanetPosition(planet, semiMajorAxis, eccentricity, initialMeanAnomaly, deltaT) {
+    let meanAnomaly = initialMeanAnomaly + deltaT; // Progress the orbit over time
+    let orbit = calculateEllipticalOrbit(semiMajorAxis, eccentricity, meanAnomaly);
+    
+    // Set the new position in Three.js (Assuming 2D view for now)
+    planet.position.set(orbit.x, 0, orbit.y);
+}
+
+// Example planet setup (Earth)
+const earth = new THREE.Mesh(
+    new THREE.SphereGeometry(0.1, 32, 32), // Adjust size as per your scaling
+    new THREE.MeshStandardMaterial({ color: 0x0077FF }) // Earth-like color
+);
+
+earth.position.set(1, 0, 0); // Starting position
+scene.add(earth);
+
+// Earth's orbital parameters
+const earthSemiMajorAxis = 1; // AU (Astronomical Units)
+const earthEccentricity = 0.0167;
+let earthMeanAnomaly = 0; // Initial mean anomaly
+
+// Three.js clock for time tracking
+const clock = new THREE.Clock();
+
+// Animation loop
 function animate() {
     requestAnimationFrame(animate);
 
-    // Animate Earth's orbit around the Sun
-    earthOrbitAngle += 0.01; // Increment the angle over time
-    earthData.planet.position.x = earthData.orbitRadius * Math.cos(earthOrbitAngle);
-    earthData.planet.position.z = earthData.orbitRadius * Math.sin(earthOrbitAngle);
-
-    // Animate Moon's orbit around Earth
-    moonOrbitAngle += 0.02;
-    const moonOrbitRadius = 2; 
-    moon.position.x = earthData.planet.position.x + moonOrbitRadius * Math.cos(moonOrbitAngle);
-    moon.position.z = earthData.planet.position.z + moonOrbitRadius * Math.sin(moonOrbitAngle);
-
-    // Animate Venus
-    venusOrbitAngle += 0.015;
-    venusData.planet.position.x = venusData.orbitRadius * Math.cos(venusOrbitAngle);
-    venusData.planet.position.z = venusData.orbitRadius * Math.sin(venusOrbitAngle);
-
-    // Animate Mars
-    marsOrbitAngle += 0.008;
-    marsData.planet.position.x = marsData.orbitRadius * Math.cos(marsOrbitAngle);
-    marsData.planet.position.z = marsData.orbitRadius * Math.sin(marsOrbitAngle);
-
-    // Animate Jupiter
-    jupiterOrbitAngle += 0.004;
-    jupiterData.planet.position.x = jupiterData.orbitRadius * Math.cos(jupiterOrbitAngle);
-    jupiterData.planet.position.z = jupiterData.orbitRadius * Math.sin(jupiterOrbitAngle);
+    let deltaT = clock.getDelta(); // Get time passed since the last frame
+    updatePlanetPosition(earth, earthSemiMajorAxis, earthEccentricity, earthMeanAnomaly, deltaT);
 
     renderer.render(scene, camera);
 }
 
+// Start the animation
 animate();
