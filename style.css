@@ -1,9 +1,53 @@
 body {
     margin: 0;
     overflow: hidden;
-    background-color: black; /* Set background color */
+    background-color: black;
+    font-family: Arial, sans-serif;
 }
 
 canvas {
     display: block;
+}
+
+.info-panel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 300px;
+    display: none;
+    border: 1px solid #333;
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#planetName {
+    margin: 0;
+    color: #39ff14; /* Neon green color */
+    font-size: 24px;
+}
+
+.nasa-pin {
+    font-size: 20px;
+    color: #ff7f00; /* Neon orange color */
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.nasa-pin:hover {
+    transform: scale(1.2);
+}
+
+#planetInfo {
+    margin: 0;
+    line-height: 1.5;
 }
