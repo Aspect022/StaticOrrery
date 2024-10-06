@@ -1,0 +1,70 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background: url('images/solar_system.webp') center / cover no-repeat; /* Solar system background image */
+    color: #212121; /* Deep blue */
+    text-align: center;
+    padding: 20px;
+}
+
+.game-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: #FFFFFF; /* White background */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #F7DC6F; /* Bright yellow */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+#puzzle-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin: 20px 0;
+}
+
+.puzzle-piece {
+    width: 100%;
+    height: 100px;
+    border-radius: 10px;
+    background: #FFFFFF; /* White background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.puzzle-piece img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.star-button {
+    background: #F7DC6F; /* Bright yellow */
+    color: #212121; /* Deep blue */
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.star-button:hover {
+    background: #FFD700; /* Golden yellow */
+    transform: scale(1.1);
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 20px;
+}

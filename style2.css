@@ -25,11 +25,11 @@ body {
 }
 
 .stars {
-    background: #000 url('img2.jpg') repeat top center;
+    background: #000 url('images/img2.jpg') repeat top center;
 }
 
 .twinkling {
-    background: transparent url('img2.jpg') repeat top center;
+    background: transparent url('images/img2.jpg') repeat top center;
     animation: move-twink-back 200s linear infinite;
 }
 
@@ -88,7 +88,42 @@ nav ul li a {
     display: flex;
     align-items: center;
 }
+.dropdown {
+    position: relative;
+}
 
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: black;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu li {
+    margin-bottom: 10px;
+}
+
+.dropdown-menu a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    color: #23527c;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
 nav ul li a:hover {
     color: #9506f4;
     transform: scale(1.1);

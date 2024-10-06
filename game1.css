@@ -1,0 +1,69 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('images/starbg.jpg');
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#gameContainer {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    background: rgba(255, 255, 255, 0.1); /* Add a subtle white overlay to create a starry effect */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#spaceship {
+    position: absolute;
+    bottom: 20px;
+    left: calc(50% - 25px);
+    width: 120px;
+    height: 120px;
+    background: url('images/rocket-1374247_1920.png') no-repeat center center/contain;
+}
+
+.alien {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: url('images/enemy.png') no-repeat center center/contain;
+}
+
+#score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+}
+
+#timer {
+    position: absolute;
+    top: 20px;
+    right: 20px; /* Positioning the timer on the right */
+    font-size: 20px;
+}
+
+#highscore {
+    position: absolute;
+    top: 40px; /* Positioned below the timer */
+    right: 10px; /* Align with the timer */
+    font-size: 20px;
+}
+.bullet {
+    position: absolute;
+    width: 20px; /* Set the desired width */
+    height: 35px; /* Set the desired height */
+}
+
