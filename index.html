@@ -3,15 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orrery Web App</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+    <title>Solar System Exploration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/jsm/loaders/GLTFLoader.js" type="module"></script>
-    <script src="app.js" type="module"></script>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <header>
+        <div class="container">
+            <h1>Embark on a Journey Beyond the Stars</h1>
+            <p>Explore our amazing solar system, learn about the planets, and discover the resources used to build this project.</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-globe-americas"></i> Explore the Solar System</a></li>
+                <li><a href="resource.html"><i class="fas fa-book"></i> Project Resources</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <section class="about">
+            <div class="container">
+                <h2><i class="fas fa-rocket"></i> About the Project</h2>
+                <p>We created this project to bring the wonders of our solar system to life. Using 3D animations and interactive models, we aim to educate and inspire curiosity about the planets, stars, and other celestial bodies. Our goal is to make space exploration more accessible to everyone.</p>
+            </div>
+        </section>
+        
+        <section class="team">
+            <div class="container">
+                <h2><i class="fas fa-users"></i> The Team</h2>
+                <p>This project was made possible by a team of talented individuals:</p>
+                <ul>
+                    <li><strong>R L Jayesh:</strong> 3D Animator, responsible for creating the solar system models.</li>
+                    <li><strong>Ayesha:</strong> Web page maintenance and feature addition to the solar models.</li>
+                    <li><strong>Sanjana B Kulkarni:</strong> Developer, integrating animations into the interactive platform.</li>
+                    <li><strong>Amogh A Kashyap:</strong> Integration of scaling and spacing for planets and orbital motions.</li>
+                    <li><strong>Shravya:</strong> Researcher and content writer for all planetary information.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; NASA Space Apps 2024 | Designed by JAAS'zzz code</p>
+        </div>
+    </footer>
 </body>
 </html>
