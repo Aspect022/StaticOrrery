@@ -24,9 +24,9 @@ Instead, please report them by:
    - Click "Report a vulnerability"
    - Fill in the details of the vulnerability
 
-2. **Or by opening a private issue**
-   - Create a new issue with the label "security"
-   - Mark it as confidential if the option is available
+2. **Or by emailing the maintainers**
+   - If GitHub Security Advisory is not available, you can open a regular issue with the label "security"
+   - For sensitive vulnerabilities, please reach out through the repository discussions or contact options
    - Include as much information as possible
 
 ### What to Include in Your Report
